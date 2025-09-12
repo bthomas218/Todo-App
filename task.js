@@ -1,4 +1,4 @@
-const STATUS = Object.freeze({
+export const STATUS = Object.freeze({
     TO_DO: "to do",
     IN_PROGRESS: "in progress",
     COMPLETE: "complete",
@@ -22,13 +22,14 @@ export default class Task {
     #updatedAt
 
     // Public Field
-    constructor(id, desc, createdAt, updatedAt) {
+    constructor(id, desc, status, createdAt, updatedAt) {
         this.#id = id;
         this.#desc = desc;
-        this.#status = STATUS.TO_DO;
+        this.#status = STATUS.TO_DO || status;
         this.#createdAt = createdAt || Date.now();
         this.#updatedAt = updatedAt || Date.now();
     }
+
 
     get id() { return this.#id; }
 

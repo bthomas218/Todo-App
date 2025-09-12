@@ -22,6 +22,15 @@ Uses classes, JSON persistence, and demonstrates OOP best practices.
 ---
 
 ## 📂 Project Structure
+Todo-app/
+├── src/
+│   ├── Task.js        # Task class
+│   ├── TaskList.js    # Task list manager
+│   └── index.js       # CLI entry point
+├── tasks.json         # Stored tasks
+├── package.json       # Node project config
+├── .gitignore
+└── README.md
 
 ---
 
