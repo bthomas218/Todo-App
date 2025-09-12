@@ -1,7 +1,7 @@
 export const STATUS = Object.freeze({
-    TO_DO: "to do",
-    IN_PROGRESS: "in progress",
-    COMPLETE: "complete",
+    TO_DO: "To do",
+    IN_PROGRESS: "In progress",
+    COMPLETE: "Complete",
 });
 
 /**

@@ -1,5 +1,6 @@
 /**
  * TODO: Add a method to update tasks
+ * TODO: Add a method to delete tasks
  */
 import fs from 'fs';
 import Task from './task.js';
@@ -25,9 +26,9 @@ export default class TaskList {
     }
 
     // List all tasks or list all tasks with a certain status
-    listTasks(status = null)
+    listTasks(status = 'All')
     {
-        if(status === null) return this.#tasks;
+        if(status === 'All') return this.#tasks;
         return this.#tasks.filter(task => task.status === status);
     }
 
