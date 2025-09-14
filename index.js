@@ -1,5 +1,4 @@
 /**
- * TODO: Implement Update
  * TODO: Implement Delete
  */
 
@@ -20,7 +19,7 @@ async function main() {
                 type: 'list',
                 name: 'command',
                 message: 'Select a command',
-                choices: ['Add', 'Update', 'Delete', 'List', 'Quit'],
+                choices: ['Add', 'Update', 'Delete', 'List', 'Quit']
             }]);
 
         switch (cli.command) {
@@ -29,7 +28,7 @@ async function main() {
                     {
                         type: 'input',
                         name: 'desc',
-                        message: 'Enter a new task',
+                        message: 'Enter a new task'
                     },
                     {
                         type: 'confirm',
@@ -48,24 +47,65 @@ async function main() {
                 id++;
                 break;
             case 'Update':
-                // handle update
+                if (tl.listTasks().length === 0) {
+                    console.log("No tasks available to update.");
+                    break;
+                }
+                const update = await inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'id',
+                        message: 'Select a task to update',
+                        choices: tl.listTasks().map(t => t.id)
+                    },
+                    {
+                        type: 'input',
+                        name: 'desc',
+                        message: 'Enter a new desc (or leave blank)',
+                    },
+                    {
+                        type: 'list',
+                        name: 'status',
+                        message: 'Select a new status',
+                        choices: ["To do", "In progress", "Complete", "Don't change"],
+                        default: "Don't Change"
+                    },
+                    {
+                        type: "confirm",
+                        name: 'confirmUpdate',
+                        message: "Confirm Update?",
+                        default: true
+                    }
+                    ]);
+                if(update.confirmUpdate) {
+                    console.log(`Updating task: ${update.id} with description ${update.desc} and status ${update.status}`);
+                    const tid = parseInt(update.id, 10);
+                    const newStatus = update.status === "Don't change" ? null : update.status;
+                    const newDesc = update.desc.trim() === "" ? null : update.desc;
+                    tl.updateTask(tid, newDesc, newStatus);
+                } else {
+                    console.log(`Canceled`);
+                }
                 break;
             case 'Delete':
                 // handle delete
                 break;
             case 'List':
+                if (tl.listTasks().length === 0) {
+                    console.log("No tasks available to list.");
+                    break;
+                }
                 const list = await inquirer.prompt([
                     {
                         type: 'list',
                         name: 'status',
                         message: 'list by...',
                         choices: ['All', 'To do', 'In Progress', 'Complete'],
-                        default: true
+                        default: 'All'
                     }
                 ]);
                 tl.listTasks(list.status).forEach(t => {
-                    console.log(`${t.id}. [${t.status}] ${t.desc} (Created: ${new Date(t.createdAt).toLocaleString()}) 
-                    (Updated: ${new Date(t.updatedAt).toLocaleString()})`);
+                    console.log(`${t.id}. [${t.status}] ${t.desc} (Created: ${new Date(t.createdAt).toLocaleString()}) (Updated: ${new Date(t.updatedAt).toLocaleString()})`);
                 })
                 break;
             case 'Quit':

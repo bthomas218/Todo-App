@@ -42,6 +42,7 @@ export default class Task {
             throw new Error(`Invalid Status: ${status}`);
         }
         this.#status = status;
+        this.#updatedAt = Date.now();
     }
 
     get createdAt() { return this.#createdAt; }

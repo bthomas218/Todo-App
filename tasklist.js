@@ -1,5 +1,4 @@
 /**
- * TODO: Add a method to update tasks
  * TODO: Add a method to delete tasks
  */
 import fs from 'fs';
@@ -23,6 +22,13 @@ export default class TaskList {
     //  Add a task
     addTask(task) {
         this.#tasks.push(task);
+    }
+
+    // Update a task
+    updateTask(id, desc = null, status = null) {
+        const task = this.#tasks.find(task => task.id === id);
+        if(desc !== null) task.desc = desc;
+        if(status !== null)  task.status = status;
     }
 
     // List all tasks or list all tasks with a certain status
