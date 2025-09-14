@@ -1,9 +1,5 @@
-/**
- * TODO: Implement Delete
- */
-
 import TaskList from "./tasklist.js";
-import Task, {STATUS} from "./task.js";
+import Task from "./task.js";
 import inquirer from "inquirer";
 
 
@@ -41,6 +37,7 @@ async function main() {
                 if (add.confirmAdd) {
                     console.log('Adding task:', add.desc);
                     tl.addTask(new Task(id, add.desc));
+                    tl.saveToFile("tasks.json");
                 } else {
                     console.log('Canceled');
                 }
@@ -83,12 +80,37 @@ async function main() {
                     const newStatus = update.status === "Don't change" ? null : update.status;
                     const newDesc = update.desc.trim() === "" ? null : update.desc;
                     tl.updateTask(tid, newDesc, newStatus);
+                    tl.saveToFile("tasks.json");
                 } else {
                     console.log(`Canceled`);
                 }
                 break;
             case 'Delete':
-                // handle delete
+                if (tl.listTasks().length === 0) {
+                    console.log("No tasks available to update.");
+                    break;
+                }
+                const del = await inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'id',
+                        message: 'Select a task to delete',
+                        choices: tl.listTasks().map(t => t.id)
+                    },
+                    {
+                        type: "confirm",
+                        name: 'confirmDelete',
+                        message: "Confirm Delete?",
+                        default: true
+                    }
+                ]);
+                if(del.confirmDelete) {
+                    console.log(`Deleting task with id: ${del.id}`);
+                    tl.deleteTask(del.id);
+                    tl.saveToFile("tasks.json");
+                } else {
+                    console.log(`Canceled`);
+                }
                 break;
             case 'List':
                 if (tl.listTasks().length === 0) {
@@ -116,4 +138,3 @@ async function main() {
     }
 }
 await main();
-tl.saveToFile("tasks.json");

@@ -1,9 +1,5 @@
-/**
- * TODO: Add a method to delete tasks
- */
 import fs from 'fs';
 import Task from './task.js';
-import { STATUS } from './task.js';
 
 /**
  * A class to represent a list of tasks
@@ -29,6 +25,11 @@ export default class TaskList {
         const task = this.#tasks.find(task => task.id === id);
         if(desc !== null) task.desc = desc;
         if(status !== null)  task.status = status;
+    }
+
+    // Delete a task
+    deleteTask(id) {
+        this.#tasks = this.#tasks.filter(t => t.id !== id);
     }
 
     // List all tasks or list all tasks with a certain status
