@@ -45,3 +45,5 @@ git clone https://github.com/bthomas218/Todo-app.git
 cd Todo-app
 npm install
 node src/index.js
+```
+Requires: [Inquirer.js](https://www.npmjs.com/package/inquirer)
